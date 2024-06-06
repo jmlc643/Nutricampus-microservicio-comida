@@ -1,10 +1,10 @@
-package com.upao.pe.microserviciodieta.serializers.horadia;
+package com.upao.pe.microserviciodieta.serializers;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@Data
 @AllArgsConstructor
+@Data
 public class HoraDiaSerializer {
     private String hora;
 }

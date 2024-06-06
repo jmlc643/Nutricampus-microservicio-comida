@@ -3,7 +3,7 @@ package com.upao.pe.microserviciodieta.servicios;
 
 import com.upao.pe.microserviciodieta.modelos.HoraDia;
 import com.upao.pe.microserviciodieta.repositorios.HoraDiaRepositorio;
-import com.upao.pe.microserviciodieta.serializers.horadia.HoraDiaSerializer;
+import com.upao.pe.microserviciodieta.serializers.HoraDiaSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;

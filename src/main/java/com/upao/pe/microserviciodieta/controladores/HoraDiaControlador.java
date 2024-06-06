@@ -2,7 +2,7 @@ package com.upao.pe.microserviciodieta.controladores;
 
 
 import com.upao.pe.microserviciodieta.modelos.HoraDia;
-import com.upao.pe.microserviciodieta.serializers.horadia.HoraDiaSerializer;
+import com.upao.pe.microserviciodieta.serializers.HoraDiaSerializer;
 import com.upao.pe.microserviciodieta.servicios.HoraDiaServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
