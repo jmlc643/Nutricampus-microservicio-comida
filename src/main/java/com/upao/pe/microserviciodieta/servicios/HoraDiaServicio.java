@@ -39,7 +39,7 @@ public class HoraDiaServicio {
     public List<HoraDiaSerializer> eliminarHoraDia(Long id){
         Optional<HoraDia> horaDia = horaDiaRepositorio.findById(id);
         if(horaDia.isEmpty()){
-            throw new RuntimeException("No se encontra la hora del dia");
+            throw new RuntimeException("No se encuentra la hora del dia");
         }
         horaDiaRepositorio.delete(horaDia.get());
         return listarHoraDias();
@@ -48,5 +48,13 @@ public class HoraDiaServicio {
     // Mapear a serializer
     public HoraDiaSerializer retornarHoraDiaSerializer(HoraDia horaDia){
         return new HoraDiaSerializer(horaDia.getHora());
+    }
+
+    public HoraDia buscarHoraDia(String momentoDia) {
+        Optional<HoraDia> horaDia = horaDiaRepositorio.findByHora(momentoDia);
+        if(horaDia.isEmpty()){
+            throw new RuntimeException(("No se encuentra la hora del dia"));
+        }
+        return horaDia.get();
     }
 }

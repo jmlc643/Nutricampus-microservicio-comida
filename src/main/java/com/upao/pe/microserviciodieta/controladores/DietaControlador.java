@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("dieta")
@@ -38,10 +37,5 @@ public class DietaControlador {
     @DeleteMapping("/eliminar/")
     public List<DietaSerializer> eliminarDieta(@RequestBody Long id){
         return dietaServicio.eliminarDieta(id);
-    }
-
-    @GetMapping("/test/")
-    public Object getApi(){
-        return restTemplate.getForObject("http://localhost:8080/comida/listar/", Object.class);
     }
 }

@@ -66,4 +66,12 @@ public class DietaServicio {
         Object comidaDTO = restTemplate.postForObject(url+"/comida/retornarSerializer/", comida, Object.class);
         return new DietaSerializer(dieta.getRaciones(), comidaDTO);
     }
+
+    public Dieta buscarDieta(Long id){
+        Optional<Dieta> dieta = dietaRepositorio.findById(id);
+        if(dieta.isEmpty()){
+            throw new RuntimeException("No se ha encontrado la dieta");
+        }
+        return dieta.get();
+    }
 }
