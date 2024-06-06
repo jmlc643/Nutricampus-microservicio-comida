@@ -15,6 +15,8 @@ public class HoraDieta {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_hora_dieta")
     private Long idHoraDieta;
+    @Column(name = "hora")
+    private int hora;
     @JoinColumns({
             @JoinColumn(name="id_dieta", referencedColumnName="id_dieta")
     })
