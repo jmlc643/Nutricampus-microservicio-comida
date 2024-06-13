@@ -1,4 +1,4 @@
-package com.upao.pe.microserviciodieta.serializers.dieta;
+package com.upao.pe.microserviciodieta.serializers.comida;
 
 import com.upao.pe.microserviciodieta.modelos.DietaComida;
 import lombok.AllArgsConstructor;
@@ -6,10 +6,13 @@ import lombok.Data;
 
 import java.util.List;
 
-@Data
 @AllArgsConstructor
-public class EditarDietaRequest {
+@Data
+public class EditarComidaRequest {
     private Long id;
-    private int raciones;
+    private String nombre;
+    private String descripcion;
+    private String tipo;
     private List<DietaComida> dietaComidas;
+    private String nuevoNombre;
 }
