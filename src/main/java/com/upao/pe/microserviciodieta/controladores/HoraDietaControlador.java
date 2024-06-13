@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("hora-dieta")
-//@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200")
 public class HoraDietaControlador {
 
     @Autowired private HoraDietaServicio horaDietaServicio;

@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("hora-dia")
-//@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200")
 public class HoraDiaControlador {
 
     @Autowired private HoraDiaServicio horaDiaServicio;
