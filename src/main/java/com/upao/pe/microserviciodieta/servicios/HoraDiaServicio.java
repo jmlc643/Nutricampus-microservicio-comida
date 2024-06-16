@@ -6,6 +6,10 @@ import com.upao.pe.microserviciodieta.repositorios.HoraDiaRepositorio;
 import com.upao.pe.microserviciodieta.serializers.HoraDiaSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,41 +24,44 @@ public class HoraDiaServicio {
 
     // CREATE
     public HoraDiaSerializer crearHoraDia(HoraDiaSerializer request){
-        HoraDia horaDia = new HoraDia(null, request.getHora());
+        HoraDia horaDia = new HoraDia(null, request.getFecha(), request.getHora(), new ArrayList<>());
         return retornarHoraDiaSerializer(horaDiaRepositorio.save(horaDia));
     }
 
     //UPDATE
-    public HoraDiaSerializer editarHoraDia(HoraDia request){
-        Optional<HoraDia> horaDia = horaDiaRepositorio.findById(request.getIdHoraDia());
-        if(horaDia.isEmpty()){
-            throw new RuntimeException("No se encontra la hora del dia");
-        }
-        horaDia.get().setHora(request.getHora());
-        horaDiaRepositorio.saveAndFlush(horaDia.get());
-        return retornarHoraDiaSerializer(horaDia.get());
+    public HoraDiaSerializer editarHoraDia(Long id, HoraDiaSerializer request){
+        HoraDia horaDia = buscarHoraDia(id);
+        horaDia.setHora(request.getHora());
+        horaDiaRepositorio.saveAndFlush(horaDia);
+        return retornarHoraDiaSerializer(horaDia);
     }
 
     // DELETE
     public List<HoraDiaSerializer> eliminarHoraDia(Long id){
-        Optional<HoraDia> horaDia = horaDiaRepositorio.findById(id);
-        if(horaDia.isEmpty()){
-            throw new RuntimeException("No se encuentra la hora del dia");
-        }
-        horaDiaRepositorio.delete(horaDia.get());
+        HoraDia horaDia = buscarHoraDia(id);
+        horaDiaRepositorio.delete(horaDia);
         return listarHoraDias();
     }
 
     // Mapear a serializer
     public HoraDiaSerializer retornarHoraDiaSerializer(HoraDia horaDia){
-        return new HoraDiaSerializer(horaDia.getHora());
+        return new HoraDiaSerializer(horaDia.getFecha(), horaDia.getHora());
     }
 
-    public HoraDia buscarHoraDia(String momentoDia) {
-        Optional<HoraDia> horaDia = horaDiaRepositorio.findByHora(momentoDia);
+    public HoraDia buscarHoraDia(Long id) {
+        Optional<HoraDia> horaDia = horaDiaRepositorio.findById(id);
         if(horaDia.isEmpty()){
             throw new RuntimeException(("No se encuentra la hora del dia"));
         }
         return horaDia.get();
     }
+
+    public HoraDia buscarHoraDiaPorFechaYHora(LocalDate fecha, LocalTime hora){
+        Optional<HoraDia> horaDia = horaDiaRepositorio.findByFechaAndHora(fecha, hora);
+        if(horaDia.isEmpty()){
+            throw new RuntimeException(("No se encuentra la hora del dia"));
+        }
+        return horaDia.get();
+    }
+
 }

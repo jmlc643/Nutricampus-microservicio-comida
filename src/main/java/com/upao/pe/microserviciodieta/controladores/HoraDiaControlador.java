@@ -13,7 +13,6 @@ import java.util.List;
 @RequestMapping("hora-dia")
 @CrossOrigin(origins = "http://localhost:4200")
 public class HoraDiaControlador {
-
     @Autowired private HoraDiaServicio horaDiaServicio;
 
     @GetMapping("/listar/")
@@ -26,13 +25,14 @@ public class HoraDiaControlador {
         return horaDiaServicio.crearHoraDia(request);
     }
 
-    @PutMapping("/editar/")
-    public HoraDiaSerializer editarHoraDia(@RequestBody HoraDia request){
-        return horaDiaServicio.editarHoraDia(request);
+    @PutMapping("/editar/{id}")
+    public HoraDiaSerializer editarHoraDia(@PathVariable Long id, @RequestBody HoraDiaSerializer request){
+        return horaDiaServicio.editarHoraDia(id, request);
     }
 
-    @DeleteMapping("/eliminar/")
-    public List<HoraDiaSerializer> eliminarHoraDia(@RequestBody Long id){
+    @DeleteMapping("/eliminar/{id}")
+    public List<HoraDiaSerializer> eliminarHoraDia(@PathVariable Long id){
         return horaDiaServicio.eliminarHoraDia(id);
     }
+
 }

@@ -9,7 +9,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class EditarDietaRequest {
-    private Long id;
     private int raciones;
     private List<DietaComida> dietaComidas;
 }

@@ -4,6 +4,7 @@ package com.upao.pe.microserviciodieta.servicios;
 
 import com.upao.pe.microserviciodieta.modelos.Comida;
 import com.upao.pe.microserviciodieta.modelos.DietaComida;
+import com.upao.pe.microserviciodieta.modelos.HoraComida;
 import com.upao.pe.microserviciodieta.repositorios.ComidaRepositorio;
 import com.upao.pe.microserviciodieta.serializers.comida.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,32 +24,29 @@ public class ComidaServicio {
 
     // CREATE
     public ComidaSerializer crearComida(CrearComidaRequest request){
+        if(comidaRepositorio.existsByNombre(request.getNombre())){
+            throw new RuntimeException("La comida ya existe");
+        }
         List<DietaComida> dietaComidas = new ArrayList<>();
         Comida comida = new Comida(null, request.getNombre(), request.getDescripcion(), request.getTipo(), dietaComidas);
         return retornarComidaSerializer(comidaRepositorio.save(comida));
     }
 
     // UPDATE
-    public ComidaSerializer editarComida(EditarComidaRequest request){
-        Optional<Comida> comida = comidaRepositorio.findByNombre(request.getNombre());
-        if(comida.isEmpty()){
-            throw new RuntimeException("No se encontro la comida");
-        }
-        comida.get().setNombre(request.getNuevoNombre());
-        comida.get().setDescripcion(request.getDescripcion());
-        comida.get().setTipo(request.getTipo());
-        comida.get().setDietaComidas(request.getDietaComidas());
-        comidaRepositorio.saveAndFlush(comida.get());
-        return retornarComidaSerializer(comida.get());
+    public ComidaSerializer editarComida(String nombre, EditarComidaRequest request){
+        Comida comida = buscarComida(nombre);
+        comida.setNombre(request.getNombre());
+        comida.setDescripcion(request.getDescripcion());
+        comida.setTipo(request.getTipo());
+        comida.setDietaComidas(request.getDietaComidas());
+        comidaRepositorio.saveAndFlush(comida);
+        return retornarComidaSerializer(comida);
     }
 
     // DELETE
-    public List<ComidaSerializer> eliminarComida(EliminarComidaRequest request){
-        Optional<Comida> comida = comidaRepositorio.findByNombre(request.getNombre());
-        if(comida.isEmpty()){
-            throw new RuntimeException("No se encontro la comida");
-        }
-        comidaRepositorio.delete(comida.get());
+    public List<ComidaSerializer> eliminarComida(String nombre){
+        Comida comida = buscarComida(nombre);
+        comidaRepositorio.delete(comida);
         return listarComidas();
     }
 
@@ -57,8 +55,8 @@ public class ComidaServicio {
         return new ComidaSerializer(comida.getNombre(), comida.getDescripcion(), comida.getTipo());
     }
 
-    public Comida buscarComida(BuscarComidaRequest request){
-        Optional<Comida> comida = comidaRepositorio.findByNombre(request.getNombre());
+    public Comida buscarComida(String nombre){
+        Optional<Comida> comida = comidaRepositorio.findByNombre(nombre);
         if(comida.isEmpty()){
             throw new RuntimeException("No se encontro la comida");
         }

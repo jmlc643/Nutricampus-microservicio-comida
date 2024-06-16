@@ -1,19 +1,12 @@
 package com.upao.pe.microserviciodieta.controladores;
 
-import com.upao.pe.microserviciodieta.modelos.HoraDieta;
-import com.upao.pe.microserviciodieta.serializers.hora_dieta.CrearHoraDietaSerializer;
-import com.upao.pe.microserviciodieta.serializers.hora_dieta.HoraDietaSerializer;
-import com.upao.pe.microserviciodieta.servicios.HoraDietaServicio;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
-@RestController
 @RequestMapping("hora-dieta")
 @CrossOrigin(origins = "http://localhost:4200")
 public class HoraDietaControlador {
-
+/*
     @Autowired private HoraDietaServicio horaDietaServicio;
 
     @GetMapping("/listar/")
@@ -38,4 +31,6 @@ public class HoraDietaControlador {
     public HoraDietaSerializer retornarSerializer(@RequestBody HoraDieta horaDieta){
         return horaDietaServicio.retornarHoraDietaSerializer(horaDieta);
     }
+
+ */
 }

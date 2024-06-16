@@ -17,8 +17,6 @@ public class DietaControlador {
 
     @Autowired private DietaServicio dietaServicio;
 
-    @Autowired private RestTemplate restTemplate;
-
     @GetMapping("/listar/")
     public List<DietaSerializer> listarDietas(){
         return dietaServicio.listarDietas();
@@ -29,13 +27,13 @@ public class DietaControlador {
         return dietaServicio.crearDieta(request);
     }
 
-    @PutMapping("/editar/")
-    public DietaSerializer editarDieta(@RequestBody EditarDietaRequest request){
-        return dietaServicio.editarDieta(request);
+    @PutMapping("/editar/{id}")
+    public DietaSerializer editarDieta(@PathVariable Long id, @RequestBody EditarDietaRequest request){
+        return dietaServicio.editarDieta(id, request);
     }
 
-    @DeleteMapping("/eliminar/")
-    public List<DietaSerializer> eliminarDieta(@RequestBody Long id){
+    @DeleteMapping("/eliminar/{id}")
+    public List<DietaSerializer> eliminarDieta(@PathVariable Long id){
         return dietaServicio.eliminarDieta(id);
     }
 }

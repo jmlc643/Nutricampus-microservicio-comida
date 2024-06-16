@@ -1,7 +1,5 @@
 package com.upao.pe.microserviciodieta.controladores;
 
-
-import com.upao.pe.microserviciodieta.modelos.Comida;
 import com.upao.pe.microserviciodieta.serializers.comida.*;
 import com.upao.pe.microserviciodieta.servicios.ComidaServicio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +23,18 @@ public class ComidaControlador {
         return comidaServicio.crearComida(request);
     }
 
-    @PutMapping("/editar/")
-    public ComidaSerializer editarComida(@RequestBody EditarComidaRequest request){
-        return comidaServicio.editarComida(request);
+    @PutMapping("/editar/{nombre}")
+    public ComidaSerializer editarComida(@PathVariable String nombre, @RequestBody EditarComidaRequest request){
+        return comidaServicio.editarComida(nombre, request);
     }
 
-    @DeleteMapping("/eliminar/")
-    public List<ComidaSerializer> eliminarComida(@RequestBody EliminarComidaRequest request){
-        return comidaServicio.eliminarComida(request);
+    @DeleteMapping("/eliminar/{nombre}")
+    public List<ComidaSerializer> eliminarComida(@PathVariable String nombre){
+        return comidaServicio.eliminarComida(nombre);
+    }
+
+    @GetMapping("/buscar/{nombre}")
+    public ComidaSerializer buscarComida(@PathVariable String nombre){
+        return comidaServicio.retornarComidaSerializer(comidaServicio.buscarComida(nombre));
     }
 }

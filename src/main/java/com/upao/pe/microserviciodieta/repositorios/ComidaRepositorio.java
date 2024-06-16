@@ -10,4 +10,6 @@ import java.util.Optional;
 @Repository
 public interface ComidaRepositorio extends JpaRepository<Comida, Long> {
     Optional<Comida> findByNombre(String nombre);
+
+    boolean existsByNombre(String nombre);
 }

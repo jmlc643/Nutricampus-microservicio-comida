@@ -18,7 +18,7 @@ public class Dieta {
     private Long idDieta;
     @Column(name = "raciones", nullable = false)
     private int raciones;
-    @OneToMany(mappedBy = "dieta")
+    @OneToMany(mappedBy = "dieta", cascade = CascadeType.ALL)
     private List<DietaComida> dietaComidas;
 }
 

@@ -3,11 +3,11 @@ package com.upao.pe.microserviciodieta.serializers.dieta;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
-public class DietaSerializer {
-    private int raciones;
-    private List<ComidaHoraDia> comidas;
+public class ComidaConFechasCrear {
+    private String comida;
+    private LocalDateTime fecha;
 }

@@ -24,4 +24,8 @@ public class DietaComida {
     @ManyToOne
     @JoinColumn(name = "id_comida", nullable = false)
     private Comida comida;
+
+    @ManyToOne
+    @JoinColumn(name = "id_hora_dia", nullable = false)
+    private HoraDia horaDia;
 }
