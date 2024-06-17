@@ -24,7 +24,7 @@ public class HoraDiaServicio {
 
     // CREATE
     public HoraDiaSerializer crearHoraDia(HoraDiaSerializer request){
-        HoraDia horaDia = new HoraDia(null, request.getFecha(), request.getHora(), new ArrayList<>());
+        HoraDia horaDia = new HoraDia(null, request.getFecha(), request.getHora(), new ArrayList<>(), new ArrayList<>());
         return retornarHoraDiaSerializer(horaDiaRepositorio.save(horaDia));
     }
 

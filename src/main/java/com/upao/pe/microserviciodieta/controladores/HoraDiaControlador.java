@@ -35,4 +35,14 @@ public class HoraDiaControlador {
         return horaDiaServicio.eliminarHoraDia(id);
     }
 
+    @PostMapping("/buscar/")
+    public HoraDia buscarHoraDia(@RequestBody HoraDiaSerializer request){
+        return horaDiaServicio.buscarHoraDiaPorFechaYHora(request.getFecha(), request.getHora());
+    }
+
+    @PostMapping("/serializer/")
+    public HoraDiaSerializer retornarHoraDiaSerializer(@RequestBody HoraDia request){
+        return horaDiaServicio.retornarHoraDiaSerializer(request);
+    }
+
 }

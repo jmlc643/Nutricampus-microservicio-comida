@@ -1,5 +1,8 @@
 package com.upao.pe.microserviciodieta.modelos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.upao.pe.microserviciodieta.serializers.EjercicioRutina;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,5 +27,9 @@ public class HoraDia {
     @Column(name = "hora", nullable = false)
     private LocalTime hora;
     @OneToMany(mappedBy = "horaDia", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<DietaComida> dietaComidas;
+    @OneToMany(mappedBy = "horaDia", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<EjercicioRutina> ejercicioRutinas;
 }

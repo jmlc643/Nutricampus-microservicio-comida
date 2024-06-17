@@ -6,8 +6,6 @@ import com.upao.pe.microserviciodieta.modelos.Dieta;
 import com.upao.pe.microserviciodieta.modelos.DietaComida;
 import com.upao.pe.microserviciodieta.modelos.HoraDia;
 import com.upao.pe.microserviciodieta.repositorios.DietaRepositorio;
-import com.upao.pe.microserviciodieta.serializers.HoraDiaSerializer;
-import com.upao.pe.microserviciodieta.serializers.comida.ComidaSerializer;
 import com.upao.pe.microserviciodieta.serializers.dieta.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

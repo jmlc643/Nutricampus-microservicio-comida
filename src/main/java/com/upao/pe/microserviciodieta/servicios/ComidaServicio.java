@@ -4,7 +4,6 @@ package com.upao.pe.microserviciodieta.servicios;
 
 import com.upao.pe.microserviciodieta.modelos.Comida;
 import com.upao.pe.microserviciodieta.modelos.DietaComida;
-import com.upao.pe.microserviciodieta.modelos.HoraComida;
 import com.upao.pe.microserviciodieta.repositorios.ComidaRepositorio;
 import com.upao.pe.microserviciodieta.serializers.comida.*;
 import org.springframework.beans.factory.annotation.Autowired;

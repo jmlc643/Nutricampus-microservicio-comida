@@ -1,5 +1,7 @@
 package com.upao.pe.microserviciodieta.modelos;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -27,5 +29,6 @@ public class DietaComida {
 
     @ManyToOne
     @JoinColumn(name = "id_hora_dia", nullable = false)
+    @JsonIgnore
     private HoraDia horaDia;
 }
