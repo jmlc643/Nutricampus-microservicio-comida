@@ -18,6 +18,10 @@ import java.util.List;
 @Table(name = "hora_dia")
 @Entity
 public class HoraDia {
+    /*
+    Fecha y Hora de Inicio y Fin
+    Posiblemente 2 atributos LocalDateTime (Buscar(fechaInicio, fechaFin))
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_hora_dia")

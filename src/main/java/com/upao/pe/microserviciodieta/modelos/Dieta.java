@@ -1,5 +1,7 @@
 package com.upao.pe.microserviciodieta.modelos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.upao.pe.microserviciodieta.serializers.DietaCronograma;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,6 +14,7 @@ import java.util.List;
 @Table(name = "dieta")
 @Entity
 public class Dieta {
+    // calorias totales como atributo
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_dieta")
@@ -20,5 +23,7 @@ public class Dieta {
     private int raciones;
     @OneToMany(mappedBy = "dieta", cascade = CascadeType.ALL)
     private List<DietaComida> dietaComidas;
+    @OneToMany(mappedBy = "dieta", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<DietaCronograma> dietaCronogramas;
 }
-

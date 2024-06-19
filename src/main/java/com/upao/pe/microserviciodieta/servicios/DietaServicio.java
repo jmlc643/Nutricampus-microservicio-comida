@@ -29,7 +29,7 @@ public class DietaServicio {
 
     // CREATE
     public DietaSerializer crearDieta(CrearDietaRequest request){
-        Dieta dieta = new Dieta(null, request.getRaciones(), null);
+        Dieta dieta = new Dieta(null, request.getRaciones(), null, null);
         dietaRepositorio.save(dieta);
         // Generar la lista de la tabla intermedia DietaComida
         List<DietaComida> dietaComidas = new ArrayList<>();

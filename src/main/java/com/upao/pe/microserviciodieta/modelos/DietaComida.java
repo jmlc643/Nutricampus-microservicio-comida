@@ -1,6 +1,5 @@
 package com.upao.pe.microserviciodieta.modelos;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
@@ -14,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DietaComida {
+    // Raciones
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_dieta_comida")
@@ -21,6 +21,7 @@ public class DietaComida {
 
     @ManyToOne
     @JoinColumn(name = "id_dieta", nullable = false)
+    @JsonIgnore
     private Dieta dieta;
 
     @ManyToOne
@@ -29,6 +30,5 @@ public class DietaComida {
 
     @ManyToOne
     @JoinColumn(name = "id_hora_dia", nullable = false)
-    @JsonIgnore
     private HoraDia horaDia;
 }

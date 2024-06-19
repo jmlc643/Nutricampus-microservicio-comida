@@ -1,5 +1,6 @@
 package com.upao.pe.microserviciodieta.controladores;
 
+import com.upao.pe.microserviciodieta.modelos.Dieta;
 import com.upao.pe.microserviciodieta.serializers.dieta.CrearDietaRequest;
 import com.upao.pe.microserviciodieta.serializers.dieta.DietaSerializer;
 import com.upao.pe.microserviciodieta.serializers.dieta.EditarDietaRequest;
@@ -35,5 +36,20 @@ public class DietaControlador {
     @DeleteMapping("/eliminar/{id}")
     public List<DietaSerializer> eliminarDieta(@PathVariable Long id){
         return dietaServicio.eliminarDieta(id);
+    }
+
+    @GetMapping("/buscar/{id}")
+    public Dieta buscarDieta(@PathVariable Long id){
+        return dietaServicio.buscarDieta(id);
+    }
+
+    @PostMapping("/serializer/")
+    public DietaSerializer retornarDietaSerializer(@RequestBody Dieta dieta){
+        return dietaServicio.retornarDietaSerializer(dieta);
+    }
+
+    @GetMapping("/test/{id}")
+    public DietaSerializer test(@PathVariable Long id){
+        return dietaServicio.retornarDietaSerializer(dietaServicio.buscarDieta(id));
     }
 }
