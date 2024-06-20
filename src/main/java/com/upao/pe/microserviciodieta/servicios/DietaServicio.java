@@ -29,7 +29,7 @@ public class DietaServicio {
 
     // CREATE
     public DietaSerializer crearDieta(CrearDietaRequest request){
-        Dieta dieta = new Dieta(null, request.getRaciones(), null, null);
+        Dieta dieta = new Dieta(null, request.getCaloriasTotales(), null, null);
         dietaRepositorio.save(dieta);
         // Generar la lista de la tabla intermedia DietaComida
         List<DietaComida> dietaComidas = new ArrayList<>();
@@ -37,7 +37,7 @@ public class DietaServicio {
         for(ComidaConFechasCrear comidaConFecha : request.getComidas()){
             Comida comida = comidaServicio.buscarComida(comidaConFecha.getComida());
             HoraDia horaDia = horaDiaServicio.buscarHoraDiaPorFechaYHora(comidaConFecha.getFecha().toLocalDate(), comidaConFecha.getFecha().toLocalTime());
-            DietaComida dietaComida = new DietaComida(null, dieta, comida, horaDia);
+            DietaComida dietaComida = new DietaComida(null, comidaConFecha.getRaciones(), dieta, comida, horaDia);
             dietaComidas.add(dietaComida);
         }
 
@@ -50,7 +50,7 @@ public class DietaServicio {
     // UPDATE
     public DietaSerializer editarDieta(Long id, EditarDietaRequest request){
         Dieta dieta = buscarDieta(id);
-        dieta.setRaciones(request.getRaciones());
+        dieta.setCaloriasTotales(request.getCaloriasTotales());
         dieta.setDietaComidas(request.getDietaComidas());
         dietaRepositorio.saveAndFlush(dieta);
         return retornarDietaSerializer(dieta);
@@ -67,10 +67,10 @@ public class DietaServicio {
     public DietaSerializer retornarDietaSerializer(Dieta dieta){
         List<ComidaHoraDia> comidas = new ArrayList<>();
         for(int i = 0; i < dieta.getDietaComidas().size(); i++) {
-            ComidaHoraDia comidaConFecha = new ComidaHoraDia(comidaServicio.retornarComidaSerializer(dieta.getDietaComidas().get(i).getComida()), horaDiaServicio.retornarHoraDiaSerializer(dieta.getDietaComidas().get(i).getHoraDia()));
+            ComidaHoraDia comidaConFecha = new ComidaHoraDia(dieta.getDietaComidas().get(i).getRaciones(), comidaServicio.retornarComidaSerializer(dieta.getDietaComidas().get(i).getComida()), horaDiaServicio.retornarHoraDiaSerializer(dieta.getDietaComidas().get(i).getHoraDia()));
             comidas.add(comidaConFecha);
         }
-        return new DietaSerializer(dieta.getRaciones(), comidas);
+        return new DietaSerializer(dieta.getCaloriasTotales(), comidas);
     }
 
     public Dieta buscarDieta(Long id){

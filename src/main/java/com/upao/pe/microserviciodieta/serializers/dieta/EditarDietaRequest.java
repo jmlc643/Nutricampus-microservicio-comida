@@ -9,6 +9,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class EditarDietaRequest {
-    private int raciones;
+    private double caloriasTotales;
     private List<DietaComida> dietaComidas;
 }

@@ -27,7 +27,7 @@ public class ComidaServicio {
             throw new RuntimeException("La comida ya existe");
         }
         List<DietaComida> dietaComidas = new ArrayList<>();
-        Comida comida = new Comida(null, request.getNombre(), request.getDescripcion(), request.getTipo(), dietaComidas);
+        Comida comida = new Comida(null, request.getNombre(), request.getDescripcion(), request.getTipo(), request.getCalorias(), dietaComidas);
         return retornarComidaSerializer(comidaRepositorio.save(comida));
     }
 
@@ -37,6 +37,7 @@ public class ComidaServicio {
         comida.setNombre(request.getNombre());
         comida.setDescripcion(request.getDescripcion());
         comida.setTipo(request.getTipo());
+        comida.setCalorias(comida.getCalorias());
         comida.setDietaComidas(request.getDietaComidas());
         comidaRepositorio.saveAndFlush(comida);
         return retornarComidaSerializer(comida);
@@ -51,7 +52,7 @@ public class ComidaServicio {
 
     // Mapear a Serializer
     public ComidaSerializer retornarComidaSerializer(Comida comida){
-        return new ComidaSerializer(comida.getNombre(), comida.getDescripcion(), comida.getTipo());
+        return new ComidaSerializer(comida.getNombre(), comida.getDescripcion(), comida.getTipo(), comida.getCalorias());
     }
 
     public Comida buscarComida(String nombre){

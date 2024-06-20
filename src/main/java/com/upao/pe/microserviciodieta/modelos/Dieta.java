@@ -19,8 +19,8 @@ public class Dieta {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_dieta")
     private Long idDieta;
-    @Column(name = "raciones", nullable = false)
-    private int raciones;
+    @Column(name = "calorias_totales")
+    private double caloriasTotales;
     @OneToMany(mappedBy = "dieta", cascade = CascadeType.ALL)
     private List<DietaComida> dietaComidas;
     @OneToMany(mappedBy = "dieta", cascade = CascadeType.ALL)

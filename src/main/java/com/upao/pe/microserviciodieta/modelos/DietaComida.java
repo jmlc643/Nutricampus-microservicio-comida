@@ -13,12 +13,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DietaComida {
-    // Raciones
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_dieta_comida")
     private Long idDietaComida;
-
+    @Column(name = "raciones", nullable = false)
+    private int raciones;
     @ManyToOne
     @JoinColumn(name = "id_dieta", nullable = false)
     @JsonIgnore

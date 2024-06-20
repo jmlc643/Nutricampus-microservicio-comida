@@ -9,4 +9,5 @@ public class CrearComidaRequest {
     private String nombre;
     private String descripcion;
     private String tipo;
+    private double calorias;
 }

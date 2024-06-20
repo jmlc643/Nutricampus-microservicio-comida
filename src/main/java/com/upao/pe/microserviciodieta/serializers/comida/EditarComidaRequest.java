@@ -12,5 +12,6 @@ public class EditarComidaRequest {
     private String nombre;
     private String descripcion;
     private String tipo;
+    private double calorias;
     private List<DietaComida> dietaComidas;
 }

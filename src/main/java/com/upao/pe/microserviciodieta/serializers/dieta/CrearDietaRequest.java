@@ -8,6 +8,6 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 public class CrearDietaRequest {
-    private int raciones;
+    private double caloriasTotales;
     private List<ComidaConFechasCrear> comidas;
 }

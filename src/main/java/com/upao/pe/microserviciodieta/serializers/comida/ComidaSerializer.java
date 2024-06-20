@@ -1,7 +1,6 @@
 package com.upao.pe.microserviciodieta.serializers.comida;
 
 
-import com.upao.pe.microserviciodieta.modelos.DietaComida;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -13,4 +12,5 @@ public class ComidaSerializer {
     private String nombre;
     private String descripcion;
     private String tipo;
+    private double calorias;
 }

@@ -23,6 +23,8 @@ public class Comida {
     private String descripcion;
     @Column(name = "tipo", nullable = false)
     private String tipo;
+    @Column(name = "calorias", nullable = false)
+    private double calorias;
     @OneToMany(mappedBy = "comida", cascade = CascadeType.ALL)
     private List<DietaComida> dietaComidas;
 }

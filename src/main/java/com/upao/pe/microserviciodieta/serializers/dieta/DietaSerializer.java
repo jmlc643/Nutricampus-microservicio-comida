@@ -8,6 +8,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class DietaSerializer {
-    private int raciones;
+    private double caloriasTotales;
     private List<ComidaHoraDia> comidas;
 }

@@ -10,6 +10,7 @@ import jakarta.persistence.ManyToOne;
 public class EjercicioRutina {
     @Id
     private Long idEjercicioRutina;
+    private int repeticiones;
     private Long idRutina;
     private Long idEjercicio;
     @ManyToOne

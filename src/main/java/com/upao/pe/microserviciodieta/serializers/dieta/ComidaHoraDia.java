@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class ComidaHoraDia {
+    private int raciones;
     private ComidaSerializer comida;
     private HoraDiaSerializer fecha;
 }
