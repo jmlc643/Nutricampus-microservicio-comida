@@ -19,6 +19,7 @@ public class DietaComida {
     private Long idDietaComida;
     @Column(name = "raciones", nullable = false)
     private int raciones;
+
     @ManyToOne
     @JoinColumn(name = "id_dieta", nullable = false)
     @JsonIgnore

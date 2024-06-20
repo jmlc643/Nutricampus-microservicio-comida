@@ -14,7 +14,6 @@ import java.util.List;
 @Table(name = "dieta")
 @Entity
 public class Dieta {
-    // calorias totales como atributo
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_dieta")
