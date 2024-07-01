@@ -1,0 +1,67 @@
+#version: "3.9" --> This is no longer supported
+services:
+  postgres15:
+    container_name: postgres15
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: nutricampus
+    volumes:
+      - data-postgres-dieta:/var/lib/postgresql/data
+    networks:
+      - dietanet
+
+  microservicio-dieta:
+    container_name: microservicio-dieta
+    #image: catalogv1  --> 1) When we used the one we had locally
+    # 2) With this is going to build the image, as long as it is not build yet. Using Dockerfile
+    #    build:
+    #      context: ./
+    #      dockerfile: ./msvc-catalog/Dockerfile
+    # 3) The following image is from DockerHub
+    image: luisrz/micro_dieta
+    ports:
+      - "8081:8081"
+    environment:
+      PORT: 8081
+      DB_HOST: postgres15:5432
+      DB_DATABASE: nutricampus
+      DB_USERNAME: postgres
+      DB_PASSWORD: 1234
+      COMIDA_URL: microservicio-alimentos:8080
+    networks:
+      - dietanet
+    depends_on:
+      - postgres15
+    # restart: always --> This is optional, could be convenient if we find errors in the log
+
+  microservicio-usuarios:
+    container_name: microservicio-usuarios
+    image: luisrz/micro_usuarios
+    #    build:
+    #      context: ./
+    #      dockerfile: ./svc-artisans/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      PORT: 8080
+      DB_HOST: postgres15:5432
+      DB_DATABASE: nutricampus
+      DB_USERNAME: postgres
+      DB_PASSWORD: 1234
+    networks:
+      - dietanet
+    depends_on:
+      - postgres15
+
+# Defining variables
+# With 'name' we can use reuse the volumes we had
+volumes:
+  data-postgres-dieta:
+    name: data-postgres-dieta
+
+networks:
+  dietanet:
