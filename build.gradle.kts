@@ -37,3 +37,7 @@ dependencies {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+springBoot {
+    mainClass = "com.upao.pe.microserviciodieta.MicroservicioDietaApplication"
+}

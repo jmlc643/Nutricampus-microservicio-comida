@@ -31,7 +31,29 @@ services:
       DB_DATABASE: nutricampus
       DB_USERNAME: postgres
       DB_PASSWORD: 1234
-      COMIDA_URL: microservicio-alimentos:8080
+    networks:
+      - dietanet
+    depends_on:
+      - postgres15
+    # restart: always --> This is optional, could be convenient if we find errors in the log
+
+  microservicio-rutina:
+    container_name: microservicio-rutina
+    #image: catalogv1  --> 1) When we used the one we had locally
+    # 2) With this is going to build the image, as long as it is not build yet. Using Dockerfile
+    #    build:
+    #      context: ./
+    #      dockerfile: ./msvc-catalog/Dockerfile
+    # 3) The following image is from DockerHub
+    image: luisrz/micro_rutina
+    ports:
+      - "8083:8083"
+    environment:
+      PORT: 8083
+      DB_HOST: postgres15:5432
+      DB_DATABASE: nutricampus
+      DB_USERNAME: postgres
+      DB_PASSWORD: 1234
     networks:
       - dietanet
     depends_on:
@@ -45,9 +67,9 @@ services:
     #      context: ./
     #      dockerfile: ./svc-artisans/Dockerfile
     ports:
-      - "8080:8080"
+      - "8082:8082"
     environment:
-      PORT: 8080
+      PORT: 8082
       DB_HOST: postgres15:5432
       DB_DATABASE: nutricampus
       DB_USERNAME: postgres
@@ -56,6 +78,8 @@ services:
       - dietanet
     depends_on:
       - postgres15
+      - microservicio-dieta
+      - microservicio-rutina
 
 # Defining variables
 # With 'name' we can use reuse the volumes we had
