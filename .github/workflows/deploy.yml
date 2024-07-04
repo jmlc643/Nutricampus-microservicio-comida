@@ -6,7 +6,7 @@ on:
       - despliegue_docker_v2
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -38,20 +38,57 @@ jobs:
           echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
           docker push luisrz/micro_dieta
 
-      - name: Deploy to EC2
+      - name: Create EC2 Instance
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: 'us-east-1'
-          INSTANCE_ID: ${{ secrets.INSTANCE_ID }}
-          EC2_PUBLIC_IP: ${{ secrets.EC2_PUBLIC_IP }}
+        run: |
+          INSTANCE_ID=$(aws ec2 run-instances \
+            --image-id ami-0c55b159cbfafe1f0 \  # Amazon Linux 2 AMI ID (this may vary by region)
+            --instance-type t2.micro \
+            --key-name ${{ secrets.AWS_KEY_NAME }} \
+            --security-group-ids ${{ secrets.AWS_SECURITY_GROUP }} \
+            --subnet-id ${{ secrets.AWS_SUBNET_ID }} \
+            --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=github-action-instance}]' \
+            --query 'Instances[0].InstanceId' \
+            --output text)
+          echo "INSTANCE_ID=$INSTANCE_ID" >> $GITHUB_ENV
+
+      - name: Get EC2 Public IP
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: 'us-east-1'
+        run: |
+          INSTANCE_ID=$(echo ${{ env.INSTANCE_ID }})
+          while true; do
+            PUBLIC_IP=$(aws ec2 describe-instances \
+              --instance-ids $INSTANCE_ID \
+              --query 'Reservations[0].Instances[0].PublicIpAddress' \
+              --output text)
+            if [ "$PUBLIC_IP" != "None" ]; then
+              echo "EC2_PUBLIC_IP=$PUBLIC_IP" >> $GITHUB_ENV
+              break
+            fi
+            sleep 10
+          done
+
+      - name: Wait for EC2 to be ready
+        run: |
+          INSTANCE_ID=$(echo ${{ env.INSTANCE_ID }})
+          aws ec2 wait instance-status-ok --instance-ids $INSTANCE_ID
+
+      - name: Deploy to EC2
+        env:
+          EC2_PUBLIC_IP: ${{ env.EC2_PUBLIC_IP }}
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
         run: |
           echo "${{ secrets.PRIVATE_KEY }}" > private_key.pem
           chmod 600 private_key.pem
-          scp -o StrictHostKeyChecking=no -i private_key.pem docker-compose.yml ec2-user@${{ secrets.EC2_PUBLIC_IP }}:/home/ec2-user/
-          ssh -o StrictHostKeyChecking=no -i private_key.pem ec2-user@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
+          scp -o StrictHostKeyChecking=no -i private_key.pem docker-compose.yml ec2-user@${{ env.EC2_PUBLIC_IP }}:/home/ec2-user/
+          ssh -o StrictHostKeyChecking=no -i private_key.pem ec2-user@${{ env.EC2_PUBLIC_IP }} << 'EOF'
             docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
             docker-compose down
             docker-compose pull
