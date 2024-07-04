@@ -3,7 +3,7 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - despliegue_docker_v2
+      - main
 
 jobs:
   build-and-deploy:
@@ -38,18 +38,26 @@ jobs:
           echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
           docker push luisrz/micro_dieta
 
+      - name: Install AWS CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y awscli
+
       - name: Create EC2 Instance
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: 'us-east-1'
+          AWS_KEY_NAME: ${{ secrets.AWS_KEY_NAME }}
+          AWS_SECURITY_GROUP: ${{ secrets.AWS_SECURITY_GROUP }}
+          AWS_SUBNET_ID: ${{ secrets.AWS_SUBNET_ID }}
         run: |
           INSTANCE_ID=$(aws ec2 run-instances \
-            --image-id ami-0c55b159cbfafe1f0 \  # Amazon Linux 2 AMI ID (this may vary by region)
+            --image-id ami-0c55b159cbfafe1f0 \
             --instance-type t2.micro \
-            --key-name ${{ secrets.AWS_KEY_NAME }} \
-            --security-group-ids ${{ secrets.AWS_SECURITY_GROUP }} \
-            --subnet-id ${{ secrets.AWS_SUBNET_ID }} \
+            --key-name $AWS_KEY_NAME \
+            --security-group-ids $AWS_SECURITY_GROUP \
+            --subnet-id $AWS_SUBNET_ID \
             --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=github-action-instance}]' \
             --query 'Instances[0].InstanceId' \
             --output text)
