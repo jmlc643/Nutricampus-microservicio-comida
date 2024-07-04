@@ -1,30 +1,19 @@
 package com.upao.pe.microserviciodieta.modelos;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "comida")
-@Entity
+@Document(collection = "comidas")
 public class Comida {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_comida")
-    private Long idComida;
-    @Column(name = "nombre", nullable = false, unique = true)
     private String nombre;
-    @Column(name = "descripcion", nullable = false)
     private String descripcion;
-    @Column(name = "tipo", nullable = false)
     private String tipo;
-    @Column(name = "calorias", nullable = false)
     private double calorias;
-    @OneToMany(mappedBy = "comida", cascade = CascadeType.ALL)
-    private List<DietaComida> dietaComidas;
 }
