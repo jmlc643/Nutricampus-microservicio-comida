@@ -43,19 +43,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y awscli
 
-      - name: Get latest Amazon Linux 2 AMI ID
-        env:
-          AWS_REGION: 'us-east-1'
-        run: |
-          LATEST_AMI_ID=$(aws ec2 describe-images \
-            --owners amazon \
-            --filters "Name=name,Values=amzn2-ami-hvm-2.0.????????-x86_64-gp2" "Name=state,Values=available" \
-            --query "Images[*].[ImageId,CreationDate]" \
-            --output text \
-            --region $AWS_REGION | sort -k2 -r | head -n 1 | cut -f1)
-          echo "LATEST_AMI_ID=$LATEST_AMI_ID" >> $GITHUB_ENV
-
-      - name: Create EC2 Instance
+      - name: Launch EC2 Instance
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -65,7 +53,7 @@ jobs:
           AWS_SUBNET_ID: ${{ secrets.AWS_SUBNET_ID }}
         run: |
           INSTANCE_ID=$(aws ec2 run-instances \
-            --image-id ${{ env.LATEST_AMI_ID }} \
+            --image-id ami-06c68f701d8090592 \
             --instance-type t2.micro \
             --key-name $AWS_KEY_NAME \
             --security-group-ids $AWS_SECURITY_GROUP \
@@ -80,8 +68,8 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: 'us-east-1'
+          INSTANCE_ID: ${{ env.INSTANCE_ID }}
         run: |
-          INSTANCE_ID=$(echo ${{ env.INSTANCE_ID }})
           while true; do
             PUBLIC_IP=$(aws ec2 describe-instances \
               --instance-ids $INSTANCE_ID \
