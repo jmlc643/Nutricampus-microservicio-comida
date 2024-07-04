@@ -82,6 +82,7 @@ jobs:
           sleep 10
         done
 
+
     - name: Wait for EC2 to be ready
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
