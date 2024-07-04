@@ -74,6 +74,8 @@ services:
       DB_DATABASE: nutricampus
       DB_USERNAME: postgres
       DB_PASSWORD: 1234
+      MICROSERVICIO_URL: microservicio-dieta:8081
+      MICROSERVICIO_RUTINA_URL: microservicio-rutina:8083
     networks:
       - dietanet
     depends_on:
