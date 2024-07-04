@@ -91,6 +91,7 @@ jobs:
         run: |
           aws ec2 wait instance-status-ok --instance-ids $INSTANCE_ID
 
+
       - name: Deploy to EC2
         env:
           EC2_PUBLIC_IP: ${{ env.EC2_PUBLIC_IP }}
