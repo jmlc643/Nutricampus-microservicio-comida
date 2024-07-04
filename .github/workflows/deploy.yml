@@ -63,10 +63,9 @@ jobs:
           AWS_KEY_NAME: ${{ secrets.AWS_KEY_NAME }}
           AWS_SECURITY_GROUP: ${{ secrets.AWS_SECURITY_GROUP }}
           AWS_SUBNET_ID: ${{ secrets.AWS_SUBNET_ID }}
-          LATEST_AMI_ID: ${{ env.LATEST_AMI_ID }}
         run: |
           INSTANCE_ID=$(aws ec2 run-instances \
-            --image-id $LATEST_AMI_ID \
+            --image-id ${{ env.LATEST_AMI_ID }} \
             --instance-type t2.micro \
             --key-name $AWS_KEY_NAME \
             --security-group-ids $AWS_SECURITY_GROUP \
