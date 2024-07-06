@@ -1,0 +1,13 @@
+name: Deploy to Render
+
+on:
+  push:
+    branches: [despliegue_render_v3]
+
+jobs:
+  deploy:
+    name: Wait for Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for Render Deployment
+        run: echo "Prueba"
