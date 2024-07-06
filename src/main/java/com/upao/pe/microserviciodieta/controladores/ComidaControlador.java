@@ -13,7 +13,7 @@ import java.util.List;
 public class ComidaControlador {
     @Autowired private ComidaServicio comidaServicio;
 
-    @GetMapping("/git-hub-actions")
+    @GetMapping("/listar/")
     public List<Comida> listarComidas(){
         return comidaServicio.listarComidas();
     }
