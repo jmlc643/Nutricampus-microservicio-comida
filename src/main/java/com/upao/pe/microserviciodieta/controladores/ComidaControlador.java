@@ -13,7 +13,7 @@ import java.util.List;
 public class ComidaControlador {
     @Autowired private ComidaServicio comidaServicio;
 
-    @GetMapping("/lista/")
+    @GetMapping("/listar/")
     public List<Comida> listarComidas(){
         return comidaServicio.listarComidas();
     }
