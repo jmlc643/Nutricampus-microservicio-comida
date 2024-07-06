@@ -10,4 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Wait for Render Deployment
-        run: echo "Prueba"
+        uses: bounceapp/render-action@0.6.0
+        with:
+          render-token: ${{secrets.RENDER_TOKEN}}
+          github-token: ${{secrets.TOKEN_GITHUB}}
+          service-id: srv-cq4cicg8fa8c73fncir0?key=7WlubphvIcE
+          retries: 20
+          wait: 16000
+          sleep: 30000
